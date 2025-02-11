@@ -1,10 +1,26 @@
-// src/index.ts
 import './index.css';
-import { TimeModel } from './models/TimeModel';
-import { ClockView } from './views/ClockView';
 import { ClockController } from './controllers/ClockController';
+import { ModalController } from './controllers/ModalController';
+import { ThemeController } from './controllers/ThemeController';
 
-const model = new TimeModel();
-const view = new ClockView();
-const controller = new ClockController(model, view);
-controller.start();
+function createAddClockButton(): void {
+    new ThemeController();
+    const modalController = new ModalController();
+    const addBtn = document.createElement('button');
+    addBtn.textContent = 'Add Clock';
+    addBtn.className = 'add-clock-btn';
+    
+    addBtn.onclick = () => {
+        modalController.show((timeZoneOffset: number) => {
+            new ClockController(timeZoneOffset);
+        });
+    };
+    
+    document.body.appendChild(addBtn);
+}
+
+// Initialize the application
+new ThemeController(); // Initialise le contrôleur de thème
+createAddClockButton();
+new ClockController();
+ClockController.startAll();
