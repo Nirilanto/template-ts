@@ -1,4 +1,4 @@
-import { EditMode } from '../models/EditMode';
+import { EditMode } from "../types/types";
 
 export class ClockView {
     private display: HTMLElement;
@@ -6,9 +6,11 @@ export class ClockView {
     private editingClass: string = 'editing';
     private backgroundColor: string = '#FBE106';
     private id: string;
+    private timeZoneOffset: number;
 
-    constructor(id: string, onDelete: () => void) {
+    constructor(id: string, timeZoneOffset: number, onDelete: () => void) {
         this.id = id;
+        this.timeZoneOffset = timeZoneOffset;
         this.initializeDOM(onDelete);
     }
 
@@ -110,11 +112,17 @@ export class ClockView {
         const [timeValue, ampm] = time.split(' ');
         const [hours, minutes, seconds] = timeValue.split(':');
         
+        // Créer un span pour l'information de la zone horaire
+        const zoneInfo = `<div class="timezone-info">GMT ${this.timeZoneOffset >= 0 ? '+' : ''}${this.timeZoneOffset}</div>`;
+        
         this.display.innerHTML = `
-            <span class="${editMode === EditMode.HOURS ? 'editing' : ''}">${hours}</span>:
-            <span class="${editMode === EditMode.MINUTES ? 'editing' : ''}">${minutes}</span>:
-            <span>${seconds}</span>
-            ${ampm ? `<span class="ampm">${ampm}</span>` : ''}
+            <div class="time-display">
+                <span class="${editMode === EditMode.HOURS ? 'editing' : ''}">${hours}</span>:
+                <span class="${editMode === EditMode.MINUTES ? 'editing' : ''}">${minutes}</span>:
+                <span>${seconds}</span>
+                ${ampm ? `<span class="ampm">${ampm}</span>` : ''}
+            </div>
+            ${zoneInfo}
         `;
     }
 
@@ -125,7 +133,7 @@ export class ClockView {
     public setEditMode(mode: EditMode): void {
         this.display.classList.remove(this.editingClass);
         if (mode !== EditMode.NONE) {
-        //  this.display.classList.add(this.editingClass);
+            //  this.display.classList.add(this.editingClass);
         }
     }
 

@@ -1,16 +1,16 @@
-import { TimeModel } from '../models/TimeModel';
+import { ClockModel } from '../models/ClockModel';
+import { EditMode } from '../types/types';
 import { ClockView } from '../views/ClockView';
-import { EditMode } from '../models/EditMode';
 
 export class ClockController {
-    private model: TimeModel;
+    private model: ClockModel;
     private view: ClockView;
     private static intervalId: number | null = null;
     private static clocks: ClockController[] = [];
 
     constructor(timeZoneOffset: number = 0) {
-        this.model = new TimeModel(timeZoneOffset);
-        this.view = new ClockView(crypto.randomUUID(), () => this.destroy());
+        this.model = new ClockModel(timeZoneOffset);
+        this.view = new ClockView(crypto.randomUUID(), timeZoneOffset, () => this.destroy());
         this.bindEvents();
         ClockController.clocks.push(this);
     }
