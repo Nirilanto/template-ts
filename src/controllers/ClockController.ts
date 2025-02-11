@@ -55,7 +55,7 @@ export class ClockController {
     public start(): void {
         this.intervalId = window.setInterval(() => {
             this.model.updateTime();
-            this.view.updateDisplay(this.model.getTime());
+            this.view.updateDisplay(this.model.getTime(), this.model.getEditMode());
         }, 1000);
     }
 }

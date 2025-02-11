@@ -45,14 +45,19 @@ export class ClockView {
         return buttonsContainer;
     }
 
-    public updateDisplay(time: string): void {
-        this.display.textContent = time;
+    public updateDisplay(time: string, editMode: EditMode): void {
+        const [hours, minutes, seconds] = time.split(':');
+        this.display.innerHTML = `
+            <span class="${editMode === EditMode.HOURS ? 'editing' : ''}">${hours}</span>:
+            <span class="${editMode === EditMode.MINUTES ? 'editing' : ''}">${minutes}</span>:
+            <span>${seconds}</span>
+        `;
     }
 
     public setEditMode(mode: EditMode): void {
         this.display.classList.remove(this.editingClass);
         if (mode !== EditMode.NONE) {
-            this.display.classList.add(this.editingClass);
+            //this.display.classList.add(this.editingClass);
         }
     }
 
