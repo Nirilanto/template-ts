@@ -7,16 +7,30 @@ export class TimeModel {
     private seconds: number = 0;
     private editMode: EditMode = EditMode.NONE;
     private updateInProgress: boolean = false;
+    private timeZoneOffset: number = 0;
+    private is24HFormat: boolean = true;
 
-    constructor() {
+    constructor(timeZoneOffset: number = 0) {
+        this.timeZoneOffset = timeZoneOffset;
+        this.resetTime();
+    }
+
+    public resetTime(): void {
         const now = new Date();
-        this.hours = now.getHours();
-        this.minutes = now.getMinutes();
-        this.seconds = now.getSeconds();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const newTime = new Date(utc + (3600000 * this.timeZoneOffset));
+        this.hours = newTime.getHours();
+        this.minutes = newTime.getMinutes();
+        this.seconds = newTime.getSeconds();
     }
 
     public getTime(): string {
-        return `${this.padZero(this.hours)}:${this.padZero(this.minutes)}:${this.padZero(this.seconds)}`;
+        if (this.is24HFormat) {
+            return `${this.padZero(this.hours)}:${this.padZero(this.minutes)}:${this.padZero(this.seconds)}`;
+        }
+        const hours12 = this.hours % 12 || 12;
+        const ampm = this.hours < 12 ? 'AM' : 'PM';
+        return `${this.padZero(hours12)}:${this.padZero(this.minutes)}:${this.padZero(this.seconds)} ${ampm}`;
     }
 
     private padZero(num: number): string {
@@ -37,6 +51,7 @@ export class TimeModel {
         }
         this.updateInProgress = false;
     }
+
     public incrementHours(): void {
         this.hours = (this.hours + 1) % 24;
     }
@@ -46,6 +61,10 @@ export class TimeModel {
         if (this.minutes === 0) {
             this.incrementHours();
         }
+    }
+
+    public toggleTimeFormat(): void {
+        this.is24HFormat = !this.is24HFormat;
     }
 
     public getEditMode(): EditMode {
