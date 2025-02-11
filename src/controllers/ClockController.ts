@@ -60,6 +60,7 @@ export class ClockController {
 
         this.model.setEditMode(newMode);
         this.view.setEditMode(newMode);
+        this.view.updateDisplay(this.model.getTime(), this.model.getEditMode());
     }
 
     public handleIncreaseButton(): void {
@@ -69,6 +70,7 @@ export class ClockController {
         } else if (currentMode === EditMode.MINUTES) {
             this.model.incrementMinutes();
         }
+        this.view.updateDisplay(this.model.getTime(), this.model.getEditMode());
     }
 
     public handleLightButton(): void {
