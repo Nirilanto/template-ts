@@ -1,4 +1,4 @@
-// src/models/TimeModel.ts
+// src/models/ClockModel.ts
 import { ClockState, EditMode, TimeFormat } from '../types/types';
 
 export class ClockModel {

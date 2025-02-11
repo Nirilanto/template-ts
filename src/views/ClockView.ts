@@ -153,6 +153,7 @@ export class ClockView {
 
     public toggleBackground(): void {
         this.backgroundColor = this.backgroundColor === '#FBE106' ? '#FFFFFF' : '#FBE106';
+        this.display.style.color = this.backgroundColor === '#FBE106' ? '#FFFFFF' : '#FBE106';
         this.display.style.backgroundColor = this.backgroundColor;
     }
 
