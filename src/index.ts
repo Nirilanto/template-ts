@@ -1,5 +1,10 @@
+// src/index.ts
 import './index.css';
-import { MyClass } from './example-unit';
+import { TimeModel } from './models/TimeModel';
+import { ClockView } from './views/ClockView';
+import { ClockController } from './controllers/ClockController';
 
-const a = new MyClass(2);
-console.log('number is', a.get());
+const model = new TimeModel();
+const view = new ClockView();
+const controller = new ClockController(model, view);
+controller.start();
