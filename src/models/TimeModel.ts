@@ -7,10 +7,10 @@ export class TimeModel {
     private seconds: number = 0;
     private editMode: EditMode = EditMode.NONE;
     private updateInProgress: boolean = false;
-    private timeZoneOffset: number = 0;
+    private timeZoneOffset: number = 1;
     private is24HFormat: boolean = true;
 
-    constructor(timeZoneOffset: number = 0) {
+    constructor(timeZoneOffset: number = 1) {
         this.timeZoneOffset = timeZoneOffset;
         this.resetTime();
     }

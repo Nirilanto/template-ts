@@ -7,8 +7,11 @@ function createAddClockButton(): void {
     addBtn.textContent = 'Add Clock';
     addBtn.className = 'add-clock-btn';
     addBtn.onclick = () => {
-        const timeZoneOffset = parseInt(prompt('Enter timezone offset (e.g. 1 for GMT+1):', '0') || '0');
-        new ClockController(timeZoneOffset);
+        const userInput = prompt('Enter timezone offset (e.g. 1 for GMT+1):', '1');
+        if (userInput !== null) {
+            const timeZoneOffset = parseInt(userInput) || 0;
+            new ClockController(timeZoneOffset);
+        }
     };
     document.body.appendChild(addBtn);
 }
