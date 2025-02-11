@@ -6,6 +6,7 @@ export class TimeModel {
     private minutes: number = 0;
     private seconds: number = 0;
     private editMode: EditMode = EditMode.NONE;
+    private updateInProgress: boolean = false;
 
     constructor() {
         const now = new Date();
@@ -23,14 +24,19 @@ export class TimeModel {
     }
 
     public updateTime(): void {
-        const now = new Date();
-        this.seconds = now.getSeconds();
-        if (this.editMode === EditMode.NONE) {
-            this.minutes = now.getMinutes();
-            this.hours = now.getHours();
+        if (this.updateInProgress) return;
+        
+        this.updateInProgress = true;
+        this.seconds = (this.seconds + 1) % 60;
+        
+        if (this.seconds === 0) {
+            this.minutes = (this.minutes + 1) % 60;
+            if (this.minutes === 0) {
+                this.hours = (this.hours + 1) % 24;
+            }
         }
+        this.updateInProgress = false;
     }
-
     public incrementHours(): void {
         this.hours = (this.hours + 1) % 24;
     }
